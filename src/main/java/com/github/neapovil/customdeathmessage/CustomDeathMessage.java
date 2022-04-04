@@ -1,67 +1,71 @@
 package com.github.neapovil.customdeathmessage;
 
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
+import java.io.File;
+
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.electronwill.nightconfig.core.file.FileConfig;
+import com.github.neapovil.customdeathmessage.command.EditCommand;
+import com.github.neapovil.customdeathmessage.command.EnabledCommand;
+import com.github.neapovil.customdeathmessage.listener.PlayerDeathListener;
+
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.md_5.bungee.api.ChatColor;
 
 public final class CustomDeathMessage extends JavaPlugin implements Listener
 {
-    private static CustomDeathMessage instance;
+  private static CustomDeathMessage instance;
+  private FileConfig config;
+  public static final String ADMIN_COMMAND_PERMISSION = "custommessages.command.admin";
 
-    @Override
-    public void onEnable()
-    {
-        instance = this;
+  @Override
+  public void onEnable()
+  {
+    instance = this;
 
-        this.getServer().getPluginManager().registerEvents(this, this);
-    }
+    this.getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
 
-    @Override
-    public void onDisable()
-    {
-    }
+    this.saveResource("custommessages.json", false);
 
-    public static CustomDeathMessage getInstance()
-    {
-        return instance;
-    }
+    this.config = FileConfig.builder(new File(this.getDataFolder(), "custommessages.json"))
+        .autoreload()
+        .autosave()
+        .build();
+    this.config.load();
 
-    @EventHandler
-    private void playerDeath(PlayerDeathEvent event)
-    {
-        final Component component = Component.text(event.getPlayer().getName(), NamedTextColor.DARK_AQUA);
+    EditCommand.register();
+    EnabledCommand.register();
+  }
 
-        final Player killer = event.getPlayer().getKiller();
+  @Override
+  public void onDisable()
+  {
+  }
 
-        if (killer == null)
-        {
-            event.deathMessage(component.append(Component.text(" died", NamedTextColor.DARK_RED)));
-        }
-        else
-        {
-            final Component component1 = Component.text(killer.getName(), NamedTextColor.DARK_AQUA);
-            final Component component2 = Component.text(" smashed ", NamedTextColor.DARK_RED);
-            final Component component3 = Component.text(" using ", NamedTextColor.DARK_RED);
+  public static CustomDeathMessage getInstance()
+  {
+    return instance;
+  }
 
-            final ItemStack itemstack = killer.getInventory().getItemInMainHand();
+  public FileConfig getFileConfig()
+  {
+    return this.config;
+  }
 
-            final Component component4 = itemstack.getType().equals(Material.AIR)
-                    ? Component.text("Hands", NamedTextColor.GOLD)
-                    : itemstack.displayName().color(NamedTextColor.GOLD).hoverEvent(itemstack.asHoverEvent());
+  public boolean isCustomDeathMessageEnabled()
+  {
+    return this.config.get("enabled");
+  }
 
-            final Component built = component1.append(component2)
-                    .append(component)
-                    .append(component3)
-                    .append(component4);
+  public String translate(String string)
+  {
+    return ChatColor.translateAlternateColorCodes('&', string);
+  }
 
-            event.deathMessage(built);
-        }
-    }
+  public Component deserialize(String string)
+  {
+    return LegacyComponentSerializer.legacyAmpersand().deserialize(string);
+  }
 }

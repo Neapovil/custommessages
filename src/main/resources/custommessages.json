@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "custommessages": {
+    "playerDeath": "&3<killer> &4smashed &3<victim> &4using <weapon>",
+    "playerDeathNoKiller": "&3<victim> &4died"
+  }
+}
