@@ -1,4 +1,4 @@
-package com.github.neapovil.customdeathmessage.listener;
+package com.github.neapovil.custommessages.listener;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,18 +7,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.neapovil.customdeathmessage.CustomDeathMessage;
+import com.github.neapovil.custommessages.CustomMessages;
 
 import net.kyori.adventure.text.Component;
 
 public final class PlayerDeathListener implements Listener
 {
-  private final CustomDeathMessage plugin = CustomDeathMessage.getInstance();
+  private final CustomMessages plugin = CustomMessages.getInstance();
 
   @EventHandler
   private void playerDeath(PlayerDeathEvent event)
   {
-    if (!plugin.isCustomDeathMessageEnabled())
+    if (!plugin.isCustomMessagesEnabled())
     {
       return;
     }

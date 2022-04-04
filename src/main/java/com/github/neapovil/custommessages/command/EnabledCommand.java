@@ -1,6 +1,6 @@
-package com.github.neapovil.customdeathmessage.command;
+package com.github.neapovil.custommessages.command;
 
-import com.github.neapovil.customdeathmessage.CustomDeathMessage;
+import com.github.neapovil.custommessages.CustomMessages;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.BooleanArgument;
@@ -8,12 +8,12 @@ import dev.jorel.commandapi.arguments.LiteralArgument;
 
 public final class EnabledCommand
 {
-  private static CustomDeathMessage plugin = CustomDeathMessage.getInstance();
+  private static CustomMessages plugin = CustomMessages.getInstance();
 
   public static void register()
   {
     new CommandAPICommand("custommessages")
-        .withPermission(CustomDeathMessage.ADMIN_COMMAND_PERMISSION)
+        .withPermission(CustomMessages.ADMIN_COMMAND_PERMISSION)
         .withArguments(new LiteralArgument("enabled"))
         .withArguments(new BooleanArgument("boolean"))
         .executes((sender, args) -> {

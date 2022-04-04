@@ -1,7 +1,7 @@
-package com.github.neapovil.customdeathmessage.command;
+package com.github.neapovil.custommessages.command;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
-import com.github.neapovil.customdeathmessage.CustomDeathMessage;
+import com.github.neapovil.custommessages.CustomMessages;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPICommand;
@@ -11,12 +11,12 @@ import dev.jorel.commandapi.arguments.StringArgument;
 
 public final class EditCommand
 {
-  private static final CustomDeathMessage plugin = CustomDeathMessage.getInstance();
+  private static final CustomMessages plugin = CustomMessages.getInstance();
 
   public static void register()
   {
     new CommandAPICommand("custommessage")
-        .withPermission(CustomDeathMessage.ADMIN_COMMAND_PERMISSION)
+        .withPermission(CustomMessages.ADMIN_COMMAND_PERMISSION)
         .withArguments(new LiteralArgument("edit"))
         .withArguments(new StringArgument("path").replaceSuggestions(info -> {
           final UnmodifiableConfig path = plugin.getFileConfig().get("custommessages");

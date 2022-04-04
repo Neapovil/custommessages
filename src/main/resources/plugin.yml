@@ -1,9 +1,9 @@
-name: CustomDeathMessage
-main: com.github.neapovil.customdeathmessage.CustomDeathMessage
+name: CustomMessages
+main: com.github.neapovil.custommessages.CustomMessages
 version: 1.0.0
 api-version: 1.13
 author: Neapovil
-website: https://github.com/Neapovil/customdeathmessage
+website: https://github.com/Neapovil/custommessages
 permissions:
   custommessages.command.admin:
     default: op

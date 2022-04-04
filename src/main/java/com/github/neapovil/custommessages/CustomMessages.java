@@ -1,4 +1,4 @@
-package com.github.neapovil.customdeathmessage;
+package com.github.neapovil.custommessages;
 
 import java.io.File;
 
@@ -6,17 +6,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
-import com.github.neapovil.customdeathmessage.command.EditCommand;
-import com.github.neapovil.customdeathmessage.command.EnabledCommand;
-import com.github.neapovil.customdeathmessage.listener.PlayerDeathListener;
+import com.github.neapovil.custommessages.command.EditCommand;
+import com.github.neapovil.custommessages.command.EnabledCommand;
+import com.github.neapovil.custommessages.listener.PlayerDeathListener;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 
-public final class CustomDeathMessage extends JavaPlugin implements Listener
+public final class CustomMessages extends JavaPlugin implements Listener
 {
-  private static CustomDeathMessage instance;
+  private static CustomMessages instance;
   private FileConfig config;
   public static final String ADMIN_COMMAND_PERMISSION = "custommessages.command.admin";
 
@@ -44,7 +44,7 @@ public final class CustomDeathMessage extends JavaPlugin implements Listener
   {
   }
 
-  public static CustomDeathMessage getInstance()
+  public static CustomMessages getInstance()
   {
     return instance;
   }
@@ -54,7 +54,7 @@ public final class CustomDeathMessage extends JavaPlugin implements Listener
     return this.config;
   }
 
-  public boolean isCustomDeathMessageEnabled()
+  public boolean isCustomMessagesEnabled()
   {
     return this.config.get("enabled");
   }
