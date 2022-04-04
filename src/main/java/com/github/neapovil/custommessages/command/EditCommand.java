@@ -11,40 +11,40 @@ import dev.jorel.commandapi.arguments.StringArgument;
 
 public final class EditCommand
 {
-  private static final CustomMessages plugin = CustomMessages.getInstance();
+    private static final CustomMessages plugin = CustomMessages.getInstance();
 
-  public static void register()
-  {
-    new CommandAPICommand("custommessage")
-        .withPermission(CustomMessages.ADMIN_COMMAND_PERMISSION)
-        .withArguments(new LiteralArgument("edit"))
-        .withArguments(new StringArgument("path").replaceSuggestions(info -> {
-          final UnmodifiableConfig path = plugin.getFileConfig().get("custommessages");
-          return path.entrySet().stream().map(i -> i.getKey()).toArray(String[]::new);
-        }))
-        .withArguments(new GreedyStringArgument("message").replaceSuggestions(info -> {
-          final String path = (String) plugin.getFileConfig().get("custommessages." + info.previousArgs()[0]);
+    public static void register()
+    {
+        new CommandAPICommand("custommessages")
+                .withPermission(CustomMessages.ADMIN_COMMAND_PERMISSION)
+                .withArguments(new LiteralArgument("edit"))
+                .withArguments(new StringArgument("path").replaceSuggestions(info -> {
+                    final UnmodifiableConfig path = plugin.getFileConfig().get("custommessages");
+                    return path.entrySet().stream().map(i -> i.getKey()).toArray(String[]::new);
+                }))
+                .withArguments(new GreedyStringArgument("message").replaceSuggestions(info -> {
+                    final String path = (String) plugin.getFileConfig().get("custommessages." + info.previousArgs()[0]);
 
-          if (path == null)
-          {
-            return new String[] {};
-          }
+                    if (path == null)
+                    {
+                        return new String[] {};
+                    }
 
-          return new String[] { path };
-        }))
-        .executes((sender, args) -> {
-          final String path = (String) args[0];
-          final String message = (String) args[1];
+                    return new String[] { path };
+                }))
+                .executes((sender, args) -> {
+                    final String path = (String) args[0];
+                    final String message = (String) args[1];
 
-          if (plugin.getFileConfig().get("custommessages." + path) == null)
-          {
-            CommandAPI.fail("This custom message path doesn't exist");
-          }
+                    if (plugin.getFileConfig().get("custommessages." + path) == null)
+                    {
+                        CommandAPI.fail("This custom message path doesn't exist");
+                    }
 
-          plugin.getFileConfig().set("custommessages." + path, message);
+                    plugin.getFileConfig().set("custommessages." + path, message);
 
-          sender.sendMessage("Custom message " + path + " changed to " + plugin.translate(message));
-        })
-        .register();
-  }
+                    sender.sendMessage("Custom message " + path + " changed to " + plugin.translate(message));
+                })
+                .register();
+    }
 }
