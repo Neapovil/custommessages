@@ -29,13 +29,13 @@ public final class PlayerDeathListener implements Listener
     {
       final String message = plugin.getFileConfig().get("custommessages.playerDeathNoKiller");
 
-      final Component test = plugin.deserialize(message)
+      final Component component = plugin.deserialize(message)
           .replaceText(config -> {
             config.match("<victim>");
             config.replacement(event.getPlayer().getName());
           });
 
-      event.deathMessage(test);
+      event.deathMessage(component);
     }
     else
     {
@@ -44,7 +44,7 @@ public final class PlayerDeathListener implements Listener
 
       final ItemStack itemstack = killer.getInventory().getItemInMainHand();
 
-      final Component test = plugin.deserialize(message)
+      final Component component = plugin.deserialize(message)
           .replaceText(config -> {
             config.match("<killer>").replacement(killer.getName());
           })
@@ -64,7 +64,7 @@ public final class PlayerDeathListener implements Listener
             }
           });
 
-      event.deathMessage(test);
+      event.deathMessage(component);
     }
   }
 }
