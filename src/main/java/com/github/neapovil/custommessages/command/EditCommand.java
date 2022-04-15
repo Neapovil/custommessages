@@ -5,6 +5,7 @@ import com.github.neapovil.custommessages.CustomMessages;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPICommand;
+import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.GreedyStringArgument;
 import dev.jorel.commandapi.arguments.LiteralArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
@@ -18,11 +19,11 @@ public final class EditCommand
         new CommandAPICommand("custommessages")
                 .withPermission(CustomMessages.ADMIN_COMMAND_PERMISSION)
                 .withArguments(new LiteralArgument("edit"))
-                .withArguments(new StringArgument("path").replaceSuggestions(info -> {
+                .withArguments(new StringArgument("path").replaceSuggestions(ArgumentSuggestions.strings(info -> {
                     final UnmodifiableConfig path = plugin.getFileConfig().get("custommessages");
                     return path.entrySet().stream().map(i -> i.getKey()).toArray(String[]::new);
-                }))
-                .withArguments(new GreedyStringArgument("message").replaceSuggestions(info -> {
+                })))
+                .withArguments(new GreedyStringArgument("message").replaceSuggestions(ArgumentSuggestions.strings(info -> {
                     final String path = (String) plugin.getFileConfig().get("custommessages." + info.previousArgs()[0]);
 
                     if (path == null)
@@ -31,14 +32,14 @@ public final class EditCommand
                     }
 
                     return new String[] { path };
-                }))
+                })))
                 .executes((sender, args) -> {
                     final String path = (String) args[0];
                     final String message = (String) args[1];
 
                     if (plugin.getFileConfig().get("custommessages." + path) == null)
                     {
-                        CommandAPI.fail("This custom message path doesn't exist");
+                        throw CommandAPI.fail("This custom message path doesn't exist");
                     }
 
                     plugin.getFileConfig().set("custommessages." + path, message);

@@ -21,7 +21,7 @@ public final class EnabledCommand
 
                     plugin.getFileConfig().set("enabled", bool);
 
-                    sender.sendMessage("CustomMessages enabled changed to: " + bool);
+                    sender.sendMessage("CustomMessages changed to: " + bool);
                 })
                 .register();
     }
